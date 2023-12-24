@@ -1,9 +1,4 @@
-.stil1
-{
-    float: right;                                     /* Sağa yaslanacak */
-    width: 40%;
-    height: 60px;                                     /* yükseklik */
-}
+
 .stil2
 {
     float: left;                                      /* sola yaslanacak */
@@ -23,12 +18,9 @@ th, td
     text-align: center;                               /* Hücre içindeki yazıyı ortala */
     text-shadow: 1px 1px 1px rgb(56, 55, 55)        /* Gölgelendirme*/
 }
-
-.solla {clear: left ;}                                /* Float'ları temizler ve formu tablonun altına yerleştirir */
-
-.sagla{float: right;}                                 /* Sağa yaslanacak */
-
-input[type="text"] 
+                         
+  
+input
 {
     width: 200px; 
     height: 30px; 
