@@ -71,7 +71,16 @@
             echo "</form>";
         } elseif ($eylem1 == "degistirme1") {
             echo "<form action=ogrenci.php method=post>";
-            echo "<input type=text name=degistirilecek_ogrencino minlength=2 maxlength=32 required placeholder=Değiştirilecek Öğrenci Numarasını Giriniz><br>";
+            echo "<input type=text name=degisecek_ogrencino minlength=2 maxlength=32 required placeholder=Değiştirilecek Öğrenci Numarasını Giriniz><br>";
+            echo "<input type=submit name=degistirme_submit>";
+            echo"<br>";
+            echo "<form action=ogrenci.php method=post>";
+            echo "<input type=text name=isim1 minlength=2 maxlength=32 required placeholder=İsmi><br>";
+            echo "<input type=text name=soyisim1 minlength=2 maxlength=32 required placeholder=Soyismi><br>";
+            echo "<input type=text name=fakulte minlength=2 maxlength=32 required placeholder=Fakültesi><br>";
+            echo "<input type=text name=bolum minlength=2 maxlength=32 required placeholder=Bölümü><br>";
+            echo "<input type=text name=ogrencino minlength=2 maxlength=32 required placeholder=Öğrenci Numarası><br>";
+            echo "<input type=text name=cinsiyet minlength=2 maxlength=32 required placeholder=Erkek/Kadın><br>";
             echo "<input type=submit name=degistirme_submit>";
             echo "</form>";
         }
@@ -134,7 +143,51 @@
     
     ################################################################# ÖĞRENCİ DEĞİŞTİRME KISMI #####################################################
 
-    // Burada değiştirme işlemi için gerekli kodu EKLEMEN LAZIM UNUTMA UNUTMAAAAAAAAAAAAAAAAAAA
+    if (isset($_POST["degistirme_submit"])) {
+        $degisecek_ogrencino = $_POST["degisecek_ogrencino"];
+    
+        if (!$baglanti) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+    
+        //mevcut verileri veri tabanında çekiyoruz
+        $selectQuery = "SELECT isim1, soyisim1, fakulte, bolum, ogrencino, cinsiyet FROM ogrenci_verileri WHERE ogrencino=?";
+        $selectStmt = $baglanti->prepare($selectQuery);
+        $selectStmt->bind_param("s", $degisecek_ogrencino);
+        $selectStmt->execute();
+        $selectResult = $selectStmt->get_result();
+    
+        if ($selectResult->num_rows > 0) {
+            $row = $selectResult->fetch_assoc();
+    
+            // Eğer karşılık gelen POST değerleri boşsa alınan değerleri kullanan kod
+            $isim1 = empty($_POST["isim1"]) ? $row["isim1"] : $_POST["isim1"];
+            $soyisim1 = empty($_POST["soyisim1"]) ? $row["soyisim1"] : $_POST["soyisim1"];
+            $fakulte = empty($_POST["fakulte"]) ? $row["fakulte"] : $_POST["fakulte"];
+            $bolum = empty($_POST["bolum"]) ? $row["bolum"] : $_POST["bolum"];
+            $ogrencino = empty($_POST["ogrencino"]) ? $row["ogrencino"] : $_POST["ogrencino"];
+            $cinsiyet = empty($_POST["cinsiyet"]) ? $row["cinsiyet"] : $_POST["cinsiyet"];
+    
+            // database deki verileri güncelleme
+            $updateQuery = "UPDATE ogrenci_verileri SET isim1=?, soyisim1=?, fakulte=?, bolum=?,ogrencino=? ,cinsiyet=? WHERE ogrencino=?";
+            $updateStmt = $baglanti->prepare($updateQuery);
+            $updateStmt->bind_param("sssssss", $isim1, $soyisim1, $fakulte, $bolum,$ogrencino, $cinsiyet, $degisecek_ogrencino);
+    
+            if ($updateStmt->execute()) {
+                echo "Öğrenci bilgisi değişti";
+            } else {
+                echo "Hata: " . $updateStmt->error;
+            }
+    
+            $updateStmt->close();
+        } else {
+            echo "Öğrenci bulunamadı.";
+        }
+    
+        $selectStmt->close();
+    }
+    
+
 
     echo "</body>";
     echo "</html>";
