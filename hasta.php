@@ -69,8 +69,17 @@
             echo "</form>";
         } elseif ($eylem1 == "degistirme1") {
             echo "<form action=hasta.php method=post>";
-            echo "<input type=text name=degistirilecek_tcno minlength=2 maxlength=32 required placeholder=Değiştirilecek Hasta Numarasını Giriniz><br>";
+            echo "<input type=text name=degisecek_tcno minlength=2 maxlength=32 required placeholder=Değiştirilecek Hasta Numarasını Giriniz><br>";
             echo "<input type=submit name=degistirme_submit>";
+            echo "<br>";
+            echo "<form action=hasta.php method=post>";
+            echo "<input type=text name=isim1 minlength=2 maxlength=32 required placeholder=İsmi><br>";
+            echo "<input type=text name=soyisim1 minlength=2 maxlength=32 required placeholder=Soyismi><br>";
+            echo "<input type=text name=cinsiyet minlength=2 maxlength=32 required placeholder=Erkek/Kadın><br>";
+            echo "<input type=text name=yas minlength=2 maxlength=32 required placeholder=yaşı><br>";
+            echo "<input type=text name=tcno minlength=2 maxlength=32 required placeholder=tc_kimlik_no><br>";
+            echo "<input type=submit name=degistirme_submit>";
+            echo "</form>";
             echo "</form>";
         }
     }
@@ -136,7 +145,51 @@
     
     ################################################################# HASTA DEĞİŞTİRME KISMI #####################################################
 
-    // Burada değiştirme işlemi için gerekli kodu EKLEMEN LAZIM UNUTMA UNUTMAAAAAAAAAAAAAAAAAAA
+    if (isset($_POST["degistirme_submit"])) {
+        $degisecek_tcno = $_POST["degisecek_tcno"];
+
+
+    if (!$baglanti) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    //mevcut verileri veri tabanında çekiyoruz
+    $selectQuery = "SELECT isim1,soyisim1,cinsiyet,yas ,tcno  FROM hasta_verileri WHERE tcno=?";
+    $selectStmt = $baglanti->prepare($selectQuery);
+    $selectStmt->bind_param("s", $degisecek_tcno);
+    $selectStmt->execute();
+    $selectResult = $selectStmt->get_result();
+
+    if ($selectResult->num_rows > 0) {
+        $row = $selectResult->fetch_assoc();
+
+        // Eğer karşılık gelen POST değerleri boşsa, alınan değerleri kullanan kod
+        $isim1 = empty($_POST["isim1"]) ? $row["isim1"] : $_POST["isim1"];
+        $soyisim1 = empty($_POST["soyisim1"]) ? $row["soyisim1"] : $_POST["soyisim1"];
+        $cinsiyet = empty($_POST["cinsiyet"]) ? $row["cinsiyet"] : $_POST["cinsiyet"];
+        $yas = empty($_POST["yas"]) ? $row["yas"] : $_POST["yas"];
+        $tcno = empty($_POST["tcno"]) ? $row["tcno"] : $_POST["tcno"];
+        
+        
+
+        // database deki verileri güncelleme
+        $updateQuery = "UPDATE hasta_verileri SET isim1=?, soyisim1=?, cinsiyet=?, yas=?, tcno=? WHERE tcno=?";
+        $updateStmt = $baglanti->prepare($updateQuery);
+        $updateStmt->bind_param("ssssss", $isim1, $soyisim1,$cinsiyet,$yas,$tcno, $degisecek_tcno); 
+
+        if ($updateStmt->execute()) {
+            echo "Öğrenci bilgisi değişti";
+        } else {
+            echo "Hata: " . $updateStmt->error;
+        }
+
+        $updateStmt->close();
+    } else {
+        echo "Öğrenci bulunamadı.";
+    }
+
+    $selectStmt->close();
+}
 
     echo "</body>";
     echo "</html>";
