@@ -1,48 +1,39 @@
-
-.stil2
-{
-    float: left;                                      /* sola yaslanacak */
-    width: 40%;
-    height: 60px;                                     /* yükseklik */
-    margin-top: 2px;                                  /* Tablonun üst boşluğu */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);       /* Gölgelendirme*/
-    font-family: sans-serif;                          /* font */
+.stil2 {
+    
+    height: 60px;
+    margin-top: 100px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    font-family: sans-serif;
     border-collapse: collapse;
+    text-align: center;
 }
-th, td 
-{
+
+th, td {
     border: 1px solid black;
-    padding: 5px;                                     /* Hücre içerisindeki içeriğin tablo hücresinden uzaklığı */
-    width: 50px;                                      /* Hücre genişliği */
-    height: 15px;                                     /* Hücre yüksekliği */
-    text-align: center;                               /* Hücre içindeki yazıyı ortala */
-    text-shadow: 1px 1px 1px rgb(56, 55, 55)        /* Gölgelendirme*/
-}
-                         
-  
-input
-{
-    width: 200px; 
-    height: 30px; 
-    font-size: 16px; 
+    padding: 15px 30px;
+    text-align: center;
+    text-shadow: 1px 1px 1px rgb(56, 55, 55);
 }
 
-select 
-{
-    width: 207px; 
-    height: 30px; 
-    font-size: 16px; 
+input, select, input[type="submit"] {
+    width: 100%; 
+    height: 30px;
+    font-size: 16px;
 }
 
-input[type="submit"] 
-{
-    width: 207px; 
-    height: 30px; 
-    font-size: 16px; 
+label {
+    font-family: sans-serif;
 }
 
-label
-{
-    font-family: sans-serif;                          /* font */
+body {
+    text-align: center;
+    background-color: #ffcc8e;
 }
+
+.stil1
+{
+    width: 1175px;
+}
+
+
 
