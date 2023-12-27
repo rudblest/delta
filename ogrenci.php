@@ -1,3 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ogrenci verileri admin</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+
+
+        <div class="button" target="_blank">
+          <a href="http://localhost/website/anasayfa.html"> <img width="50px" height="50px" src="menu.png"> </a>
+        </div>
+
+    
+</body>
+</html>
+
 
 <?php
 
@@ -15,10 +34,14 @@
     echo "<link rel='stylesheet' href='css.css'>";
     echo "</head>";
     echo "<body>";
+
+    echo"<center>";
     
-    echo "<table border=1 i class=stil2 >";  
+    echo "<table border=1  class=stil2 >";  
 
     ####################################################### ÖĞRENCİ VERİ TABANININ TABLOSU #########################################################
+    echo "<div class='center-container'>";
+
     $sayi = 0;
     
     while ($satir = mysqli_fetch_array($sorgu)) {
@@ -32,13 +55,17 @@
         $sayi = 1 - $sayi;
     }
     echo "</table>";
+
+    echo"</center>";
+
+    echo "</div>";
     
     mysqli_free_result($sorgu);
 
 
     ############################################## ÖĞRENCİ VERİLERİNE UYGULANACK EYLEMİN SEÇİLDİĞİ KISIM ###########################################
-    
-    echo "<form class=solla method=post>";
+    echo"<center>";
+    echo "<form class=stil1 method=post>";
     echo "<label for=><br>Öğrenci verileri için eylem seçiniz<br></label>";
     echo "<select name=eylem1 id=eylem1>";
     echo "<option value=bos>&nbsp;</option>";
@@ -48,33 +75,42 @@
     echo "</select>";
     echo "<input type=submit name=submit>";
     echo "</form>";
+    echo"</center>";
     
     if (isset($_POST["submit"]))                     
     
     {
         $eylem1 = $_POST["eylem1"];
     
-        if ($eylem1 == "ekleme1") {
-            echo "<form action=ogrenci.php method=post>";
+        if ($eylem1 == "ekleme1") 
+        {
+            echo "<center>";
+            echo "<form action=ogrenci.php method=post class=stil1>";
             echo "<input type=text name=isim1 minlength=2 maxlength=32 required placeholder=İsmi><br>";
-            echo "<input type=text name=soyisim1 minlength=2 maxlength=32 required placeholder=Soyismi><br>";
+            echo "<input type=text name=soyisim1 minlength=2 maxlength=32  placeholder=Soyismi><br>";
             echo "<input type=text name=fakulte minlength=2 maxlength=32 required placeholder=Fakültesi><br>";
             echo "<input type=text name=bolum minlength=2 maxlength=32 required placeholder=Bölümü><br>";
             echo "<input type=text name=ogrencino minlength=2 maxlength=32 required placeholder=Öğrenci Numarası><br>";
             echo "<input type=text name=cinsiyet minlength=2 maxlength=32 required placeholder=Erkek/Kadın><br>";
             echo "<input type=submit name=ekleme_submit>";
             echo "</form>";
-        } elseif ($eylem1 == "silme1") {
-            echo "<form action=ogrenci.php method=post>";
+            echo "</center>";
+        } elseif ($eylem1 == "silme1") 
+        {
+            echo "<center>";
+            echo "<form action=ogrenci.php method=post class=stil1>";
             echo "<input type=text name=silinecek_ogrencino minlength=2 maxlength=32 required placeholder=Silinecek Öğrenci Numarasını Giriniz><br>";
             echo "<input type=submit name=silme_submit>";
             echo "</form>";
-        } elseif ($eylem1 == "degistirme1") {
-            echo "<form action=ogrenci.php method=post>";
-            echo "<input type=text name=degisecek_ogrencino minlength=2 maxlength=32 required placeholder=Değiştirilecek Öğrenci Numarasını Giriniz><br>";
+            echo "</center>";
+        } elseif ($eylem1 == "degistirme1") 
+        {
+            echo "<center>";
+            echo "<form action=ogrenci.php method=post class=stil1>";
+            echo "<input type=text name=degisecek_ogrencino minlength=2 maxlength=32 required placeholder=Değiştirilecek_Öğrenci_Numarasını_Giriniz><br>";
             echo "<input type=submit name=degistirme_submit>";
             echo"<br>";
-            echo "<form action=ogrenci.php method=post>";
+            echo "<form action=ogrenci.php method=post class=stil1>";
             echo "<input type=text name=isim1 minlength=2 maxlength=32 required placeholder=İsmi><br>";
             echo "<input type=text name=soyisim1 minlength=2 maxlength=32 required placeholder=Soyismi><br>";
             echo "<input type=text name=fakulte minlength=2 maxlength=32 required placeholder=Fakültesi><br>";
@@ -83,6 +119,7 @@
             echo "<input type=text name=cinsiyet minlength=2 maxlength=32 required placeholder=Erkek/Kadın><br>";
             echo "<input type=submit name=degistirme_submit>";
             echo "</form>";
+            echo "</center>";
         }
     }
     
@@ -99,7 +136,7 @@
     
         if (!$baglanti) 
         {
-            die("Connection failed: " . mysqli_connect_error());
+            die("Bağlantı kurulamadı: " . mysqli_connect_error());
         }
     
         $stmt = $baglanti->prepare("INSERT INTO ogrenci_verileri (isim1, soyisim1, fakulte, bolum, ogrencino, cinsiyet) VALUES (?, ?, ?, ?, ?, ?)");
@@ -126,7 +163,7 @@
         $silinecek_ogrencino = $_POST["silinecek_ogrencino"];
     
         if (!$baglanti) {
-            die("Connection failed: " . mysqli_connect_error());
+            die("Bağlantı kurulamadı: " . mysqli_connect_error());
         }
     
         $stmt = $baglanti->prepare("DELETE FROM ogrenci_verileri WHERE ogrencino = ?");
@@ -147,7 +184,7 @@
         $degisecek_ogrencino = $_POST["degisecek_ogrencino"];
     
         if (!$baglanti) {
-            die("Connection failed: " . mysqli_connect_error());
+            die("Bağlantı kurulamadı: " . mysqli_connect_error());
         }
     
         //mevcut verileri veri tabanında çekiyoruz
@@ -160,7 +197,7 @@
         if ($selectResult->num_rows > 0) {
             $row = $selectResult->fetch_assoc();
     
-            // Eğer karşılık gelen POST değerleri boşsa alınan değerleri kullanan kod
+            // Eğer karşılık gelen POST değerleri boşsa, alınan değerleri kullanan kod
             $isim1 = empty($_POST["isim1"]) ? $row["isim1"] : $_POST["isim1"];
             $soyisim1 = empty($_POST["soyisim1"]) ? $row["soyisim1"] : $_POST["soyisim1"];
             $fakulte = empty($_POST["fakulte"]) ? $row["fakulte"] : $_POST["fakulte"];
