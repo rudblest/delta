@@ -1,7 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hasta verileri admin</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+
+    <div ontouchstart="">
+        <div class="button" target="_blank">
+          <a href="http://localhost/website/anasayfa.html"> <img width="50px" height="50px" src="menu.png"> </a>
+        </div>
+      </div>
+    
+</body>
+</html>
 
 <?php
 
-    ######################################################  O G R E N C İ  B İ L G İ L E R İ  ######################################################
+    ######################################################  H A S T A   B İ L G İ L E R İ  ########################################################
 
     $baglanti = mysqli_connect('localhost', 'root', '', 'testdb');
     $sorgu = mysqli_query($baglanti, "select * from hasta_verileri");
@@ -15,6 +33,8 @@
     echo "<link rel='stylesheet' href='css.css'>";
     echo "</head>";
     echo "<body>";
+
+    echo"<center>";
     
     echo "<table border=1 i class=stil2 >";  
 
@@ -31,13 +51,17 @@
         $sayi = 1 - $sayi;
     }
     echo "</table>";
+
+    echo"</center>";
     
     mysqli_free_result($sorgu);
 
 
     ############################################## HASTA VERİLERİNE UYGULANACK EYLEMİN SEÇİLDİĞİ KISIM ###########################################
+
+    echo"<center>";
     
-    echo "<form class=solla method=post>";
+    echo "<form class=stil1 method=post>";
     echo "<label for=><br>Hasta verileri için eylem seçiniz<br></label>";
     echo "<select name=eylem1 id=eylem1>";
     echo "<option value=bos>&nbsp;</option>";
@@ -47,14 +71,18 @@
     echo "</select>";
     echo "<input type=submit name=submit>";
     echo "</form>";
+
+    echo"</center>";
     
     if (isset($_POST["submit"]))                     
     
     {
         $eylem1 = $_POST["eylem1"];
     
-        if ($eylem1 == "ekleme1") {
-            echo "<form action=hasta.php method=post>";
+        if ($eylem1 == "ekleme1") 
+        {
+            echo "<center>";
+            echo "<form action=hasta.php method=post class=stil1>";
             echo "<input type=text name=isim1 minlength=2 maxlength=32 required placeholder=İsmi><br>";
             echo "<input type=text name=soyisim1 minlength=2 maxlength=32 required placeholder=Soyismi><br>";
             echo "<input type=text name=cinsiyet minlength=2 maxlength=32 required placeholder=Erkek/Kadın><br>";
@@ -62,17 +90,23 @@
             echo "<input type=text name=tcno minlength=2 maxlength=32 required placeholder=tc_kimlik_no><br>";
             echo "<input type=submit name=ekleme_submit>";
             echo "</form>";
-        } elseif ($eylem1 == "silme1") {
-            echo "<form action=hasta.php method=post>";
+            echo "</center>";
+        } elseif ($eylem1 == "silme1") 
+        {
+            echo "<center>";
+            echo "<form action=hasta.php method=post class=stil1>";
             echo "<input type=text name=silinecek_tcno minlength=2 maxlength=32 required placeholder=Silinecek_kimlik_Numarasını_Giriniz><br>";
             echo "<input type=submit name=silme_submit>";
             echo "</form>";
-        } elseif ($eylem1 == "degistirme1") {
-            echo "<form action=hasta.php method=post>";
-            echo "<input type=text name=degisecek_tcno minlength=2 maxlength=32 required placeholder=Değiştirilecek Hasta Numarasını Giriniz><br>";
+            echo "</center>";
+        } elseif ($eylem1 == "degistirme1") 
+        {
+            echo "<center>";
+            echo "<form action=hasta.php method=post class=stil1>";
+            echo "<input type=text name=degisecek_tcno minlength=2 maxlength=32 required placeholder=Değiştirilecek_tc_numarası Giriniz><br>";
             echo "<input type=submit name=degistirme_submit>";
             echo "<br>";
-            echo "<form action=hasta.php method=post>";
+            echo "<form action=hasta.php method=post class=stil1>";
             echo "<input type=text name=isim1 minlength=2 maxlength=32 required placeholder=İsmi><br>";
             echo "<input type=text name=soyisim1 minlength=2 maxlength=32 required placeholder=Soyismi><br>";
             echo "<input type=text name=cinsiyet minlength=2 maxlength=32 required placeholder=Erkek/Kadın><br>";
@@ -81,6 +115,7 @@
             echo "<input type=submit name=degistirme_submit>";
             echo "</form>";
             echo "</form>";
+            echo "</center>";
         }
     }
     
@@ -97,7 +132,7 @@
     
         if (!$baglanti) 
         {
-            die("Connection failed: " . mysqli_connect_error());
+            die("Bağlantı hatası: " . mysqli_connect_error());
         }
     
         $stmt = $baglanti->prepare("INSERT INTO hasta_verileri (isim1, soyisim1, cinsiyet, yas, tcno) VALUES (?, ?, ?, ?, ?)");
@@ -125,7 +160,7 @@
     
         if (!$baglanti) 
         {
-            die("Connection failed: " . mysqli_connect_error());
+            die("Bağlantı hatası: " . mysqli_connect_error());
         }
     
         $stmt = $baglanti->prepare("DELETE FROM hasta_verileri WHERE tcno = ?");
@@ -150,7 +185,7 @@
 
 
     if (!$baglanti) {
-        die("Connection failed: " . mysqli_connect_error());
+        die("Bağlantı hatası: " . mysqli_connect_error());
     }
 
     //mevcut verileri veri tabanında çekiyoruz
